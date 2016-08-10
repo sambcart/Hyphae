@@ -38,9 +38,6 @@ class Node(object):
             self.split_rate = float(split_rate) / (split_rate + branch_rate)
             self.branch_rate = float(branch_rate) / (split_rate + branch_rate)
 
-        # Trust yourself?
-        # Keep the following commented.
-
         """
         if single_child_rad_rat > 1:
             self._single_crr = 0.99
