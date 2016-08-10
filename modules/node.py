@@ -21,6 +21,7 @@ class Node(object):
 
         self.x, self.y = self.pos = pos
         self.radius = radius
+        self.norm = (self.x * self.x + self.y * self.y) ** 0.5
         self.angle = angle
         self.split_rate = split_rate
         self.branch_rate = branch_rate
@@ -93,16 +94,11 @@ class Node(object):
         branch_rate = self.branch_rate * self._child_bk
         return Node((x, y), radius, angle, split_rate, branch_rate, **self.consts)
 
-    @staticmethod
-    def norm(node):
-        return math.sqrt(node.x*node.x + node.y*node.y)
-
-    @staticmethod
-    def distance(node1, node2):
-        dx = node1.x - node2.x
-        dy = node1.y - node2.y
+    def distance(self, other):
+        dx = self.x - other.x
+        dy = self.y - other.y
         return math.sqrt(dx*dx + dy*dy)
 
-    @staticmethod
-    def intersect(node1, node2):
-        return Node.distance(node1, node2) <= node1.radius + node2.radius - 1
+    def intersects(self, other):
+        dist = self.distance(other)
+        return dist <= self.radius + other.radius - 1
