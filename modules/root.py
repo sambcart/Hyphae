@@ -25,7 +25,7 @@ class Root(object):
         if node.radius < self.min_rad:
             return False
 
-        if self.boundary_rad and Node.norm(node) + node.radius > self.boundary_rad:
+        if self.boundary_rad and node.norm + node.radius > self.boundary_rad:
             return False
 
         elif node.x - node.radius < self.min_x or node.x + node.radius > self.max_x:
