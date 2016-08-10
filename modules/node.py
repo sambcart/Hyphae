@@ -38,29 +38,6 @@ class Node(object):
             self.split_rate = float(split_rate) / (split_rate + branch_rate)
             self.branch_rate = float(branch_rate) / (split_rate + branch_rate)
 
-        """
-        if single_child_rad_rat > 1:
-            self._single_crr = 0.99
-
-        if split_child_rad_rat > 1:
-            self._split_crr = 0.94
-
-        if branch_child_rad_rat > 1:
-            self._branch_crr = 0.75
-
-        if single_child_angle_sigma > math.pi:
-            self._single_cas = math.pi / 12
-
-        if split_child_angle_dev > math.pi:
-            _rad = self.radius * self._split_crr
-            a = self.radius + _rad
-            c = _rad + _rad + 1
-            self._split_cad = loc_gamma(a, a, c) / 2.
-
-        if branch_child_angle_dev > math.pi:
-            self._branch_cad = math.pi / 3
-        """
-
         self.consts = {
             "single_child_rad_rat": self._single_crr,
             "split_child_rad_rat": self._split_crr,
