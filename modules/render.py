@@ -41,5 +41,7 @@ class Render(object):
         self.ctx.curve_to(x1, y1, x2, y2, to_x, to_y)
         self._ctx_stroke(line_width)
 
-    def save_png(self, filename):
+    def save_png(self, filename, verbose=False):
+        if verbose: print "Saving image to {}...".format(filename),
         self.surface.write_to_png(filename)
+        if verbose: print "Done."
