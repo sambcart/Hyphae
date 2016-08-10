@@ -4,14 +4,14 @@ from utils import *
 
 class Root(object):
 
-    def __init__(self, nodes, min_rad, boundary_rad, min_x, max_x, min_y, max_y, cdg):
+    def __init__(self, nodes, min_rad, boundary_rad, min_x, max_x, min_y, max_y, nngrid):
 
-        self.cdg = cdg
+        self.nngrid = nngrid
         self.node_batch = []
         self.edge_set = []
 
         for node in nodes:
-            self.cdg.add(node)
+            self.nngrid.add(node)
             self.node_batch.append(node)
 
         self.min_rad = min_rad
@@ -34,9 +34,9 @@ class Root(object):
         elif node.y - node.radius < self.min_y or node.y + node.radius > self.max_y:
             return False
 
-        addresses = self.cdg.address_node(node)
-        for neighbor in self.cdg.get_neighbors(addresses):
-            if Node.intersect(node, neighbor):
+        addresses = self.nngrid.address_node(node)
+        for neighbor in self.nngrid.get_neighbors(addresses):
+            if node.intersects(neighbor):
                 return False
 
         return True
@@ -48,7 +48,7 @@ class Root(object):
             for node in self.node_batch:
                 for other in node.spawn():
                     if self.check_node(other):
-                        self.cdg.add(other)
+                        self.nngrid.add(other)
                         self.edge_set.append((node, other))
                         temp_node_batch.append(other)
             self.node_batch = temp_node_batch[:]
@@ -85,7 +85,7 @@ class Root(object):
             for node in self.node_batch:
                 for other in node.spawn():
                     if self.check_node(other):
-                        self.cdg.add(other)
+                        self.nngrid.add(other)
                         temp_node_batch.append(other)
                         self.draw_edge(node, other, render)
             render.save_png(img_dir + "/hyphae-{}.png".format(frame_count), verbose=False)
