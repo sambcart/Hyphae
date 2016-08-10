@@ -7,11 +7,10 @@ def loc_gamma(a, b, c):
 def loc_c(a, b, gamma):
     return math.sqrt(a*a + b*b - 2*a*b*math.cos(gamma))
 
-def random_point_rad(rad, buffer):
-    x = random.randint(-rad * buffer, rad * buffer)
-    ymax = int(math.sqrt(buffer * buffer * rad * rad - x * x))
-    ymin = -ymax
-    y = random.randint(ymin, ymax)
+def random_point_rad(rad, buff):
+    x = random.randint(-rad*buff, rad*buff)
+    ybound = int(math.sqrt(buff*buff*rad*rad - x*x))
+    y = random.randint(-ybound, ybound)
     return (x, y)
 
 def random_angle():
