@@ -41,6 +41,18 @@ class Render(object):
         self.ctx.curve_to(x1, y1, x2, y2, to_x, to_y)
         self._ctx_stroke(line_width)
 
+    def draw_root(self, root):
+
+        def draw_root_edge(node0, node1):
+            x0 =  node0.x + self.width / 2
+            y0 = -node0.y + self.height / 2
+            x1 =  node1.x + self.width / 2
+            y1 = -node1.y + self.height / 2
+            self.line(x0, y0, x1, y1, node1.radius)
+
+        for node0, node1 in root.edge_set:
+            draw_root_edge(node0, node1)
+
     def save_png(self, filename, verbose=False):
         if verbose: print "Saving image to {}...".format(filename),
         self.surface.write_to_png(filename)
