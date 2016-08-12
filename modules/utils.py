@@ -1,20 +1,37 @@
 import math
 import random
 
-def loc_gamma(a, b, c):
-    return math.acos((c*c - a*a - b*b) / (-2.*a*b))
+from node import Node
+from root import Root
+from neighbors import NearestNeighborsGrid as NNG
 
-def loc_c(a, b, gamma):
-    return math.sqrt(a*a + b*b - 2*a*b*math.cos(gamma))
+def initialize_root_system(
+    surf_size,
+    cell_size,
+    min_rad,
+    node_rad,
+    bound_rad,
+    bound_buff,
+    node_num,
+    node_kwargs):
 
-def random_point_rad(rad, buff):
-    x = random.randint(-rad*buff, rad*buff)
-    ybound = int(math.sqrt(buff*buff*rad*rad - x*x))
-    y = random.randint(-ybound, ybound)
-    return (x, y)
+    random_th = lambda: (random.random() - 0.5) * 2 * math.pi
+    random_x = lambda r: (random.random() - 0.5) * 2 * r
+    random_y = lambda r, x: (random.random() - 0.5) * 2 * math.sqrt(r*r - x*x)
 
-def random_angle():
-    return random.random() * 2 * math.pi
+    def random_node(buff_rad, node_rad, node_kwargs):
+        th = random_th()
+        x = random_x(buff_rad)
+        y = random_y(buff_rad, x)
+        return Node(x, y, node_rad, th, **node_kwargs)
+
+    buff_rad = bound_rad * bound_buff
+    min_x = min_y = -surf_size / 2
+    max_x = max_y = surf_size / 2
+    nodes = [random_node(buff_rad, node_rad, node_kwargs) for _ in xrange(node_num)]
+    nngrid = NNG(surf_size, cell_size)
+
+    return Root(nodes, nngrid, bound_rad, min_rad, min_x, max_x, min_y, max_y)
 
 def handle_cli_input(default_kwargs):
     import sys
