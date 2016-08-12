@@ -1,25 +1,20 @@
 import math
-import random
 import time
+import random
 
 if __name__ == "__main__":
     from modules.utils import *
-    from modules.node import Node
-    from modules.root import Root
     from modules.render import Render
-    from modules.neighbors import NearestNeighborsGrid as NNG
 
-    SURF_SIZE = 2000
-    INIT_RAD  = SURF_SIZE * 0.0035
-    BOUND_RAD = SURF_SIZE * 0.4
-    NODE_NUM  = 8
+    SURF_SIZE  = 2400
+    CELL_SIZE  = 2
+    MIN_RAD    = 2
+    NODE_RAD   = SURF_SIZE * 0.0035
+    BOUND_RAD  = SURF_SIZE * 0.4
+    BOUND_BUFF = 0.5
+    NODE_NUM   = 3
 
-    render = Render(SURF_SIZE, SURF_SIZE, 1.0, 0.15)
-
-    node_kwargs = lambda: {
-        "pos": random_point_rad(BOUND_RAD, 0.6),
-        "angle": random_angle(),
-        "radius": INIT_RAD,
+    DEFAULT_NODE_KWARGS = {
         "split_rate": 0.25,
         "branch_rate": 0.25,
         "single_child_rad_rat": 0.99,
@@ -32,34 +27,34 @@ if __name__ == "__main__":
         "child_branch_k": 1.025
     }
 
-    nngrid = NNG(SURF_SIZE, INIT_RAD)
-
-    root_kwargs = {
-        "nodes": [Node(**node_kwargs()) for _ in xrange(NODE_NUM)],
-        "min_rad": 1,
-        "boundary_rad": BOUND_RAD,
-        "min_x": -SURF_SIZE/2,
-        "max_x":  SURF_SIZE/2,
-        "min_y": -SURF_SIZE/2,
-        "max_y":  SURF_SIZE/2,
-        "nngrid": nngrid
+    DEFAULT_ROOT_KWARGS = {
+        "surf_size": SURF_SIZE,
+        "cell_size": CELL_SIZE,
+        "min_rad": MIN_RAD,
+        "node_rad": NODE_RAD,
+        "bound_rad": BOUND_RAD,
+        "bound_buff": BOUND_BUFF,
+        "node_num": NODE_NUM,
+        "node_kwargs": DEFAULT_NODE_KWARGS
     }
 
-    root = Root(**root_kwargs)
+    render = Render(SURF_SIZE, SURF_SIZE, 1.0, 0.15)
+    root = initialize_root_system(**DEFAULT_ROOT_KWARGS)
 
     try:
-        #root.generate_frames(render)
-
         tic = time.time()
         root.generate()
         toc = time.time()
-        root.draw(render)
-        tac = time.time()
+
         print "Simulation took %.3f sec" % (toc - tic)
-        print "Drawing took %.3f sec" % (tac - toc)
+
+        tic = time.time()
+        render.draw_root(root)
+        toc = time.time()
+
+        print "Drawing took %.3f sec" % (toc - tic)
         render.save_png("img/hyphae-{}.png".format(int(time.time())), verbose=True)
 
     except KeyboardInterrupt as e:
-        print e
-        root.draw(render)
+        print "Keyboard Interruption:"
         render.save_png("img/hyphae-{}.png".format(int(time.time())), verbose=True)
