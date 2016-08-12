@@ -1,3 +1,5 @@
+from Cython.Build import cythonize
+from Cython.Distutils import build_ext
 
 try:
     from setuptools import setup
@@ -6,9 +8,6 @@ try:
 except Exception:
     from distutils.core import setup
     from distutils.extension import Extension
-
-from Cython.Build import cythonize
-from Cython.Distutils import build_ext
 
 _extra = [ '-O3' , '-ffast-math' ]
 
@@ -25,5 +24,6 @@ exts = [
 
 setup(
     name = "hyphae",
+    install_requires = ["numpy>=1.8.2", "cython>=0.20.0"],
     cmdclass = {"build_ext": build_ext},
     ext_modules = cythonize(exts))
