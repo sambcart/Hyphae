@@ -4,6 +4,7 @@ from node cimport Node
 
 cdef class NearestNeighborsGrid:
 
+    @cython.cdivision(True)
     def __init__(self, int size, int cell_size):
         self._surf_size = size
         self._cell_size = cell_size
@@ -16,7 +17,7 @@ cdef class NearestNeighborsGrid:
             for j in xrange(-1, p+1):
                 self._grid[i, j] = []
 
-    @cython.boundscheck(False)
+    @cython.cdivision(True)
     cpdef list get_addresses(self, Node node):
         cdef list addresses = []
         cdef int i, j
@@ -32,7 +33,6 @@ cdef class NearestNeighborsGrid:
 
         return addresses
 
-    @cython.boundscheck(False)
     cpdef list get_neighbors(self, list addresses):
         cdef int i, j
         cdef Node neighbor
@@ -44,7 +44,6 @@ cdef class NearestNeighborsGrid:
 
         return neighbors
 
-    @cython.boundscheck(False)
     cpdef void add(self, Node node):
         cdef int i, j
         cdef list addresses = self.get_addresses(node)
