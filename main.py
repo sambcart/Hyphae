@@ -1,8 +1,5 @@
 
 def main():
-    global SURF_SIZE, CELL_SIZE, MIN_RAD, NODE_RAD, BOUND_RAD, BOUND_BUFF, NODE_NUM
-    global DEFAULT_NODE_KWARGS, DEFAULT_ROOT_KWARGS
-    global NODE_X, NODE_Y, NODE_TH
 
     # Width/height of final image (in pixels)
     SURF_SIZE = 2400
