@@ -3,10 +3,12 @@ cimport cython
 from libc.math cimport cos
 from libc.math cimport sin
 from libc.math cimport sqrt
-from libc.stdlib cimport rand, RAND_MAX
+
+import random
 
 cdef class Node:
 
+    @cython.cdivision(True)
     def __init__(self,
                  double x,
                  double y,
@@ -45,9 +47,9 @@ cdef class Node:
             self._branch_rate = branch_rate / (split_rate + branch_rate)
 
     cpdef list spawn(self):
-        cdef float r_split = rand() / <float>RAND_MAX
-        cdef float r_branch_l = rand() / <float>RAND_MAX
-        cdef float r_branch_r = rand() / <float>RAND_MAX
+        cdef float r_split = random.random()
+        cdef float r_branch_l = random.random()
+        cdef float r_branch_r = random.random()
 
         cdef list children = []
 
@@ -85,7 +87,7 @@ cdef class Node:
 
     cdef Node _build_single(self):
         cdef double radius = self.radius * self._single_crr
-        cdef float angle_dev = ((rand() / <float>RAND_MAX) - 0.5) * self._single_cas
+        cdef float angle_dev = random.gauss(0, self._single_cas)
         cdef float angle = self.angle + angle_dev
         return self._build_child(radius, angle)
 
