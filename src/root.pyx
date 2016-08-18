@@ -1,19 +1,9 @@
-cimport cython
-
 from node cimport Node
 from neighbors cimport NearestNeighborsGrid as NNG
 
 cdef class Root:
 
-    def __init__(self,
-                 list nodes,
-                 NNG nngrid,
-                 double bound_rad,
-                 double min_rad,
-                 double min_x,
-                 double max_x,
-                 double min_y,
-                 double max_y):
+    def __init__(self, list nodes, NNG nngrid, double bound_rad, double min_rad, double min_x, double max_x, double min_y, double max_y):
 
         self.edge_set = []
 
