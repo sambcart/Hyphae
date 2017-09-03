@@ -5,4 +5,4 @@ Dependencies include:
 *    `cython`
 *    `python-cairo`
 
-![](http://imgur.com/LfesDGI.png)
+![](/img/hyphae-output.gif?raw=true "animation")
