@@ -87,18 +87,8 @@ def main():
         "node_kwargs": DEFAULT_NODE_KWARGS
     }
 
-    # x,y-position of initial node
-    NODE_X  = 0
-    NODE_Y  = BOUND_RAD - NODE_RAD
-
-    # Direction of travel of initial node
-    NODE_TH = math.pi * 1.5
-
     render = Render(SURF_SIZE, SURF_SIZE, 1.0, 0.15)
-    root = initialize_root_system(node_x=NODE_X,
-                                  node_y=NODE_Y,
-                                  node_th=NODE_TH,
-                                  **DEFAULT_ROOT_KWARGS)
+    root = initialize_root_system(**DEFAULT_ROOT_KWARGS)
 
     try:
         tic = time.time()
